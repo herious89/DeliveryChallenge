@@ -1,0 +1,117 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    tools:context=".MainSplashScreen" >
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="45px" >
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </TableRow>
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableRow1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:layout_span="2"
+        android:gravity="center"
+        android:text="Search Delivery Here"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/search_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:ems="10" 
+        android:hint="Type in Address"/>
+
+    <Button
+        android:id="@+id/havesignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/status"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/status"
+        android:layout_marginBottom="29dp"
+        android:layout_span="2"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="Sign up" />
+
+    <Button
+        android:id="@+id/havesignin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/havesignup"
+        android:layout_alignLeft="@+id/havesignup"
+        android:layout_alignRight="@+id/havesignup"
+        android:layout_marginBottom="40dp"
+        android:layout_span="2"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="Sign in" />
+
+    <Button
+        android:id="@+id/search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/search_box"
+        android:layout_below="@+id/search_box"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="getAddress"
+        android:text="Search" />
+    
+        <CheckBox
+        android:id="@+id/check_pickup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/search_btn"
+        android:layout_below="@+id/search_btn"
+        android:text="Pick up" 
+        android:textColor="@color/black"/>
+
+        <CheckBox
+            android:id="@+id/check_delivery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/check_pickup"
+            android:layout_alignBottom="@+id/check_pickup"
+            android:layout_alignRight="@+id/search_box"
+            android:text="Delivery"
+            android:textColor="@color/black" />
+
+        <ToggleButton
+            android:id="@+id/gps_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/check_delivery"
+            android:layout_alignRight="@+id/check_delivery"
+            android:layout_below="@+id/search_box"
+            android:text="GPS" 
+            android:textOn="GPS on"
+    		android:textOff="GPS off"/>
+
+</RelativeLayout>
