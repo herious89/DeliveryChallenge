@@ -1,11 +1,9 @@
 package com.androidexample.delivery;
 
 
-import android.os.Bundle;
-import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
+import android.os.Bundle;
 import android.widget.TextView;
 
 public class MainSplashScreen extends Activity {

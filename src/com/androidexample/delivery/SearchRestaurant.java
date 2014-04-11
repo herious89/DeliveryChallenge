@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import net.sf.json.JSONObject;
 
 
 public class SearchRestaurant {
@@ -40,8 +39,9 @@ public class SearchRestaurant {
 	}
 	
 	private String search(String address) {
-	    String url = host + SEARCH_URL + "?client_id="
-	    			+ CLIENT_ID + "&address=" + address;
+//	    String url = host + SEARCH_URL + "?client_id="
+//	    			+ CLIENT_ID + "&address=" + address;
+		String url = "https://api.delivery.com/merchant/search/delivery?client_id=ZjkxODFiNWRkMTYzOWNhMzEzZTk4ZTZjNTU4MDM2ZjJj&address=1330%201st%20Ave,%2010021";
 	    InputStream is = null;
 	    
 	    HttpURLConnection con = null;

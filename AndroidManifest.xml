@@ -5,8 +5,11 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="8" />
+    
+   	<!-- Internet permission -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -32,6 +35,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.androidexample.delivery.FirstScreen" />
+        </activity>
+        
+   		<activity
+            android:name="com.androidexample.delivery.SingleMerchantActivity"
+            android:label="@string/title_activity_single_merchant" >
         </activity>
     </application>
 
