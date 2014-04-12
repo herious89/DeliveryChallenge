@@ -74,7 +74,7 @@ public class FirstScreen extends BaseActivity {
 		if (list.isEmpty() || list.equals("null")) {
 			return;
 		}
-		Intent i = new Intent(this, DisplayRestaurantActivity.class);
+		Intent i = new Intent(this, DisplayMerchantsActivity.class);
 		i.putExtra("hashmap", list);
 		startActivity(i, true);
 	}
@@ -115,7 +115,7 @@ public class FirstScreen extends BaseActivity {
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			
-			SearchRestaurant searchRes = new SearchRestaurant("input here");
+			SearchMerchants searchRes = new SearchMerchants("input here");
 			if (searchRes.getList() != null)
 				merchantsList = searchRes.getList();
 			return null;
