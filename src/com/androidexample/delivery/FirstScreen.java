@@ -17,61 +17,65 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+/**
+ * This class display the search screen where the app
+ * receives users' input and login information
+ * @author brian & lam
+ *
+ */
 public class FirstScreen extends BaseActivity {
+	
+	// Hold the user's input 
 	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     
     // Load dialog
     private ProgressDialog pDialog;
-    
-	// JSON Node names
-	private static final String TAG_CONTACTS = "merchants";
-	private static final String TAG_STREET = "street";
-	private static final String TAG_ZIP = "zip_code";
-	private static final String TAG_STATE = "state";
-	
-	// temp
-	private static final String TAG_ID = "id";
-	private static final String TAG_ORDER = "ordering";
-	private static final String TAG_SUMMARY = "summary";
-	private static final String TAG_LOCATION = "location";
-	
-	JSONArray merchants = null;
 
 	// Hashmap for ListView
 	ArrayList<HashMap<String, String>> merchantsList;
     
+	// Search button
     private Button btnSearch;	
 	
+    /**
+     * The onCreate method displays the search screen,
+     * sets the search button to listen to the click event
+     * which will then trigger the Async task
+     */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.firstscreen); 
 		
+		// Initialize the merchantList 
 		merchantsList = new ArrayList<HashMap<String, String>>();
-
-		
 		
 		// buttons
 		btnSearch = (Button)findViewById(R.id.search_btn);
 		
+		// Set the button the listen the click event
 		btnSearch.setOnClickListener(new OnClickListener() {
+			// Calling the event
 			@Override
-			public void onClick(View v) {
-			    
-				// Calling async task to get json
+			public void onClick(View v) {			    
+				// Calling async task 
 				new GetContacts().execute();
 			}
 		});
 		
 	} 
 	
-	// open new activity
-	public void viewResult(ArrayList<HashMap<String, String>> file) {
-		if (file.isEmpty() || file.equals("null")) {
+	/**
+	 * The viewResult methods call the DisplayRestaurant activity 
+	 * to display the list of merchants in the proper format 
+	 * @param list The ArrayList received from Async task
+	 */
+	public void viewResult(ArrayList<HashMap<String, String>> list) {
+		if (list.isEmpty() || list.equals("null")) {
 			return;
 		}
 		Intent i = new Intent(this, DisplayRestaurant.class);
-		i.putExtra("hashmap",file);
+		i.putExtra("hashmap", list);
 		startActivity(i, true);
 	}
 	
@@ -81,10 +85,18 @@ public class FirstScreen extends BaseActivity {
     }
 	
 	/**
-	 * Async task class to get json by making HTTP call
-	 * */
+	 * The getContacts method is a Async task which will 
+	 * create searchRestaurant object to get data from
+	 * delivery server
+	 * @author brian & lam
+	 *
+	 */
 	private class GetContacts extends AsyncTask<Void, Void, Void> {
-
+		
+		/**
+		 * The onPreExecute method display the waiting message
+		 * while the program is executing the search function
+		 */
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -96,138 +108,23 @@ public class FirstScreen extends BaseActivity {
 
 		}
 
+		/**
+		 * The doInBackGround method creates the searchRestaurant
+		 * object and gets the list of available merchants 
+		 */
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			
 			SearchRestaurant searchRes = new SearchRestaurant("input here");
-		    String jsonStr = searchRes.getList();
-
-			Log.d("Response: ", "> " + jsonStr);
-			if (jsonStr != null) {
-				try {
-					
-//					// get string of Jsonobj
-//					JSONObject searchResult = new JSONObject(jsonStr);
-//					JSONObject geoCodedLocation = searchResult.getJSONObject("search_address");
-//					
-//					// set the data for listview
-//					String street = geoCodedLocation.getString(TAG_STREET);
-//					String zip = geoCodedLocation.getString(TAG_ZIP);
-//					String state = geoCodedLocation.getString(TAG_STATE);
-//					
-//					// tmp hashmap for single row on listview
-//					HashMap<String, String> hashmap = new HashMap<String, String>();
-//	//System.out.println("ID HERE     " + street);
-//					
-//					// adding each child node to HashMap key => value
-//					hashmap.put(TAG_STREET, street);
-//					hashmap.put(TAG_ZIP, zip);
-//					hashmap.put(TAG_STATE, state);
-//					
-//					// adding tags to one row on listview
-//					merchantsList.add(hashmap);
-//	//System.out.println("ID HERE     " + hashmap);
-					
-					
-					// get string of Jsonobj
-					JSONObject searchResult = new JSONObject(jsonStr);
-					// Getting JSON Array node
-					merchants = searchResult.getJSONArray("merchants");
-					
-					// looping through all merchants
-					for (int i = 0; i < merchants.length(); i++) {
-						JSONObject m = merchants.getJSONObject(i);
-						
-						
-						String id = m.getString(TAG_ID);
-						//String oder = m.getString(TAG_ORDER);
-						//String location = m.getString(TAG_LOCATION);
-						
-						// get summary
-						JSONObject summary = m.getJSONObject(TAG_SUMMARY);
-						String name = summary.getString("name");
-						
-						// odering node is JSON Object (sub-category)
-						JSONObject odering = m.getJSONObject(TAG_ORDER);
-						boolean acceptCardBool = odering.getBoolean("delivery_processes_card");
-						String acceptCard = String.valueOf(acceptCardBool);
-						
-						// location node is JSON Object (sub-category)
-						JSONObject location = m.getJSONObject(TAG_LOCATION);
-						String distance = location.getString("distance");
-						String street = location.getString("street");						
-				
-						
-						// tmp hashmap for single row
-						HashMap<String, String> tmp = new HashMap<String, String>();
-
-						// adding each child node to HashMap key => value
-						tmp.put(TAG_ID, id);
-						tmp.put(TAG_ORDER, acceptCard);
-						tmp.put("distance", distance);
-						tmp.put("street", street);
-						tmp.put("name", name);
-
-						// adding contact to contact list
-						merchantsList.add(tmp);
-					}
-					
-					
-					
-				}
-				catch (JSONException e) {
-						e.printStackTrace();
-				}
-
-			} else {
-				Log.e("SearchRestaurant", "Couldn't get any data from the url");
-			}
-			
-//			if (jsonStr != null) {
-//				try {
-//					JSONObject jsonObj = new JSONObject(jsonStr);
-//					
-//					// Getting JSON Array node
-//					contacts = jsonObj.getJSONArray(TAG_CONTACTS);
-//
-//					// looping through All Contacts
-//					for (int i = 0; i < contacts.length(); i++) {
-//						JSONObject c = contacts.getJSONObject(i);
-//						
-//						String id = c.getString(TAG_ID);
-//						String name = c.getString(TAG_NAME);
-////						String email = c.getString(TAG_EMAIL);
-////						String address = c.getString(TAG_ADDRESS);
-////						String gender = c.getString(TAG_GENDER);
-////
-////						// Phone node is JSON Object
-////						JSONObject phone = c.getJSONObject(TAG_PHONE);
-////						String mobile = phone.getString(TAG_PHONE_MOBILE);
-////						String home = phone.getString(TAG_PHONE_HOME);
-////						String office = phone.getString(TAG_PHONE_OFFICE);
-//
-//						// tmp hashmap for single contact
-//						HashMap<String, String> contact = new HashMap<String, String>();
-//
-//						// adding each child node to HashMap key => value
-//						contact.put(TAG_ID, id);
-//						contact.put(TAG_NAME, name);
-////						contact.put(TAG_EMAIL, email);
-////						contact.put(TAG_PHONE_MOBILE, mobile);
-//
-//						// adding contact to contact list
-//						merchantsList.add(contact);
-//					}
-//				} catch (JSONException e) {
-//					e.printStackTrace();
-//				}
-//			} else {
-//				Log.e("ServiceHandler", "Couldn't get any data from the url");
-//			}
-
+			if (searchRes.getList() != null)
+				merchantsList = searchRes.getList();
 			return null;
 		}
 
+		/**
+		 * The onPostExecute views the list of merchants found
+		 * after the searching method had successfully executed
+		 */
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);

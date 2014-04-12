@@ -5,6 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+/**
+ * This class displays basic information of a specified merchant
+ * @author brian & lam
+ *
+ */
 public class SingleMerchantActivity  extends Activity {
 	
 	// JSON node keys

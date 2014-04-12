@@ -14,21 +14,24 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+/**
+ * This class displays the list of restaurants
+ * based on the search address input
+ * @author brian & lam
+ *
+ */
 public class DisplayRestaurant extends ListActivity {
-
-    
-	// JSON Node names
-	private static final String TAG_CONTACTS = "merchants";
-	private static final String TAG_STREET = "street";
-	private static final String TAG_ZIP = "zip_code";
-	private static final String TAG_STATE = "state";
-	
 	
 	// temp
 	private static final String TAG_ID = "id";
 	private static final String TAG_ORDER = "ordering";
 	private static final String TAG_SUMMARY = "summary";
 
+	/**
+	 * The onCreate method displays the list of available 
+	 * merchants and calls the SingleMerchantActivity whenever
+	 * a specific merchant is chosen
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,18 +78,12 @@ public class DisplayRestaurant extends ListActivity {
 		}
 	});
 	    
-		/**
-		 * Updating parsed JSON data into ListView
-		 * */
+		// Updating parsed JSON data into ListView
 		ListAdapter adapter = new SimpleAdapter(
-				DisplayRestaurant.this, merchantsList,
-//				R.layout.list_item, new String[] { TAG_STREET, TAG_ZIP,
-//						TAG_STATE }, new int[] { R.id.name,
-//						R.id.email, R.id.mobile });
-				
-				R.layout.list_item, new String[] { TAG_ID, TAG_ORDER,
+				DisplayRestaurant.this, merchantsList,	
+					R.layout.list_item, new String[] { TAG_ID, TAG_ORDER,
 						"street", "distance" , "name"}, new int[] { R.id.field1,
-				R.id.field2, R.id.field3, R.id.field4, R.id.field5 });
+					R.id.field2, R.id.field3, R.id.field4, R.id.field5 });
 
 		setListAdapter(adapter);
 

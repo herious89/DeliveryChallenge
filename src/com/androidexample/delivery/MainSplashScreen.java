@@ -6,10 +6,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+/**
+ * This class creates the splash green (welcome screen) of the app
+ * @author brian & lam
+ *
+ */
+
 public class MainSplashScreen extends Activity {
 	
+	// Store the welcome text
 	TextView welcomeText;
 
+	/**
+	 * The onCreate method displays the main splash screen
+	 * and the welcome text by creating a thread which
+	 * will sleep after 5 seconds
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,9 +31,7 @@ public class MainSplashScreen extends Activity {
 		welcomeText = (TextView)findViewById(R.id.welcome_text);
 		welcomeText.setText("Cal Poly Delivery App"); // set text
 		
-// METHOD 1		
-		
-         /****** Create Thread that will sleep for 5 seconds *************/  		
+         /****** Create Thread that will sleep after 5 seconds *************/  		
 		Thread background = new Thread() {
 			public void run() {
 				
@@ -44,30 +54,10 @@ public class MainSplashScreen extends Activity {
 		
 		// start thread
 		background.start();
-		
-//METHOD 2	
-		
-		/*
-		new Handler().postDelayed(new Runnable() {
-			 
-            // Using handler with postDelayed called runnable run method
- 
-            @Override
-            public void run() {
-                Intent i = new Intent(MainSplashScreen.this, FirstScreen.class);
-                startActivity(i);
- 
-                // close this activity
-                finish();
-            }
-        }, 5*1000); // wait for 5 seconds
-		*/
 	}
 	
 	@Override
-    protected void onDestroy() {
-		
-        super.onDestroy();
-        
+    protected void onDestroy() {		
+        super.onDestroy();      
     }
 }
