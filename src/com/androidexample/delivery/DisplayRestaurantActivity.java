@@ -20,7 +20,7 @@ import android.widget.TextView;
  * @author brian & lam
  *
  */
-public class DisplayRestaurant extends ListActivity {
+public class DisplayRestaurantActivity extends ListActivity {
 	
 	// temp
 	private static final String TAG_ID = "id";
@@ -80,7 +80,7 @@ public class DisplayRestaurant extends ListActivity {
 	    
 		// Updating parsed JSON data into ListView
 		ListAdapter adapter = new SimpleAdapter(
-				DisplayRestaurant.this, merchantsList,	
+				DisplayRestaurantActivity.this, merchantsList,	
 					R.layout.list_item, new String[] { TAG_ID, TAG_ORDER,
 						"street", "distance" , "name"}, new int[] { R.id.field1,
 					R.id.field2, R.id.field3, R.id.field4, R.id.field5 });

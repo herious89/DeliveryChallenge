@@ -74,7 +74,7 @@ public class FirstScreen extends BaseActivity {
 		if (list.isEmpty() || list.equals("null")) {
 			return;
 		}
-		Intent i = new Intent(this, DisplayRestaurant.class);
+		Intent i = new Intent(this, DisplayRestaurantActivity.class);
 		i.putExtra("hashmap", list);
 		startActivity(i, true);
 	}

@@ -29,7 +29,7 @@
         </activity>
         FirstScreen
         <activity
-            android:name="com.androidexample.delivery.DisplayRestaurant"
+            android:name="com.androidexample.delivery.DisplayRestaurantActivity"
             android:label="@string/title_activity_display_restaurant"
             android:parentActivityName="com.androidexample.delivery.FirstScreen" >
             <meta-data
