@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class MainSplashScreen extends Activity {
 	
 	// Store the welcome text
-	TextView welcomeText;
+	TextView verionNumber;
 
 	/**
 	 * The onCreate method displays the main splash screen
@@ -28,8 +28,7 @@ public class MainSplashScreen extends Activity {
 		setContentView(R.layout.main_splash_screen);
 		
 		// set welcome text
-		welcomeText = (TextView)findViewById(R.id.welcome_text);
-		welcomeText.setText("Cal Poly Delivery App"); // set text
+		verionNumber = (TextView)findViewById(R.id.app_version);
 		
          /****** Create Thread that will sleep after 5 seconds *************/  		
 		Thread background = new Thread() {
