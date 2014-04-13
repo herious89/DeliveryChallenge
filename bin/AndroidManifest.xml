@@ -29,8 +29,8 @@
         </activity>
         FirstScreen
         <activity
-            android:name="com.androidexample.delivery.DisplayRestaurantActivity"
-            android:label="@string/title_activity_display_restaurant"
+            android:name="com.androidexample.delivery.DisplayMerchantsActivity"
+            android:label="@string/title_activity_display_merchants"
             android:parentActivityName="com.androidexample.delivery.FirstScreen" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

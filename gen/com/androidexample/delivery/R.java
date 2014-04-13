@@ -87,7 +87,7 @@ public final class R {
         public static final int txt_loading=0x7f0a0014;
     }
     public static final class layout {
-        public static final int activity_display_restaurant=0x7f030000;
+        public static final int activity_display_merchants=0x7f030000;
         public static final int activity_single_merchant=0x7f030001;
         public static final int firstscreen=0x7f030002;
         public static final int list_item=0x7f030003;
@@ -104,7 +104,7 @@ public final class R {
         public static final int hello_world=0x7f060002;
         public static final int menu_settings=0x7f060001;
         public static final int splash_desc=0x7f060007;
-        public static final int title_activity_display_restaurant=0x7f060004;
+        public static final int title_activity_display_merchants=0x7f060004;
         public static final int title_activity_single_merchant=0x7f060005;
     }
     public static final class style {

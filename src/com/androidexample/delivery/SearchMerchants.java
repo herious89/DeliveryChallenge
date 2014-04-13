@@ -22,7 +22,7 @@ import android.util.Log;
  *
  */
 
-public class SearchRestaurant {
+public class SearchMerchants {
 	
 	// temp
 	private static final String TAG_ID = "id";
@@ -55,7 +55,7 @@ public class SearchRestaurant {
 	 * the searchAddress
 	 * @param address The user's input from FirstScreen
 	 */
-	public SearchRestaurant(String address) {
+	public SearchMerchants(String address) {
 		searchAddress = address;
 	}
 	

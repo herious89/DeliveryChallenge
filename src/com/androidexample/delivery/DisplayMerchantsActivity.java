@@ -20,7 +20,7 @@ import android.widget.TextView;
  * @author brian & lam
  *
  */
-public class DisplayRestaurantActivity extends ListActivity {
+public class DisplayMerchantsActivity extends ListActivity {
 	
 	// temp
 	private static final String TAG_ID = "id";
@@ -36,7 +36,7 @@ public class DisplayRestaurantActivity extends ListActivity {
 	@SuppressWarnings("unchecked")
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_restaurant);
+		setContentView(R.layout.activity_display_merchants);
 	    // Get the message from the intent
 	    Intent intent = getIntent();
 
@@ -80,7 +80,7 @@ public class DisplayRestaurantActivity extends ListActivity {
 	    
 		// Updating parsed JSON data into ListView
 		ListAdapter adapter = new SimpleAdapter(
-				DisplayRestaurantActivity.this, merchantsList,	
+				DisplayMerchantsActivity.this, merchantsList,	
 					R.layout.list_item, new String[] { TAG_ID, TAG_ORDER,
 						"street", "distance" , "name"}, new int[] { R.id.field1,
 					R.id.field2, R.id.field3, R.id.field4, R.id.field5 });

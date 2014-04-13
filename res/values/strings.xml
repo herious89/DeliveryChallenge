@@ -28,7 +28,7 @@
     <color name="Plum">#DDA0DD</color>
     <color name="Khaki">#F0E68C</color>
 
-    <string name="title_activity_display_restaurant">Restaurant List</string>
+    <string name="title_activity_display_merchants">Restaurant List</string>
     <string name="title_activity_single_merchant">Selected Restaurant</string>
     <string name="action_settings">Settings</string>
     <string name="splash_desc">Splash Screen</string>
