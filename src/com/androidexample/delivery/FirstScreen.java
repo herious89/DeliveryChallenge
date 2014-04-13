@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 /**
  * This class display the search screen where the app
@@ -26,13 +28,11 @@ import android.widget.Button;
 public class FirstScreen extends BaseActivity {
 	
 	// Hold the user's input 
-	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";	   
+    final static String SEARCH_ADDRESS = "1330 1st Ave, 10021";
     
     // Load dialog
     private ProgressDialog pDialog;
-
-	// Hashmap for ListView
-	ArrayList<HashMap<String, String>> merchantsList;
     
 	// Search button
     private Button btnSearch;	
@@ -47,9 +47,6 @@ public class FirstScreen extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.firstscreen); 
 		
-		// Initialize the merchantList 
-		merchantsList = new ArrayList<HashMap<String, String>>();
-		
 		// buttons
 		btnSearch = (Button)findViewById(R.id.search_btn);
 		
@@ -63,20 +60,53 @@ public class FirstScreen extends BaseActivity {
 			}
 		});
 		
-	} 
+	}
+	
+	/**
+	 * The Data methods holds the search result as a string
+	 * for easy access from other activity
+	 * @param 
+	 */
+	public static class Data {
+		private static String strResult;
+		private static ArrayList<Merchant> merchants;
+		
+		public static void setResult(String s) {strResult = s;}
+		public static String getResult() {return strResult;}
+
+		public static void setMerchantList(ArrayList<Merchant> m) {merchants = m;}
+		public static ArrayList<Merchant> getMerchantList() {return merchants;}
+	}
 	
 	/**
 	 * The viewResult methods call the DisplayRestaurant activity 
 	 * to display the list of merchants in the proper format 
-	 * @param list The ArrayList received from Async task
+	 * @param
 	 */
-	public void viewResult(ArrayList<HashMap<String, String>> list) {
-		if (list.isEmpty() || list.equals("null")) {
-			return;
+	public void viewResult() {
+		JSONObject searchResult;
+		try {
+			searchResult = new JSONObject(Data.getResult());
+			if (searchResult.has("merchants")) {
+				Intent i = new Intent(this, DisplayMerchantsActivity.class); 
+				startActivity(i, true);								
+			}
+			else { // Display error message
+				String msg = searchResult.getJSONObject("message").getJSONObject("user_msg").toString();
+				AlertDialog.Builder adb = new AlertDialog.Builder(FirstScreen.this);
+				adb.setTitle("Error");
+				adb.setMessage(msg);
+				adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}      
+				});
+				adb.show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		Intent i = new Intent(this, DisplayMerchantsActivity.class);
-		i.putExtra("hashmap", list);
-		startActivity(i, true);
 	}
 	
 	@Override
@@ -115,9 +145,9 @@ public class FirstScreen extends BaseActivity {
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			
-			SearchMerchants searchRes = new SearchMerchants("input here");
-			if (searchRes.getList() != null)
-				merchantsList = searchRes.getList();
+			// SearchMerchants search = new SearchMerchants("input here");
+			Data.setResult(SearchMerchants.search(SEARCH_ADDRESS));
+			Data.setMerchantList(SearchMerchants.createList(Data.getResult()));
 			return null;
 		}
 
@@ -131,7 +161,7 @@ public class FirstScreen extends BaseActivity {
 			// Dismiss the progress dialog
 			if (pDialog.isShowing())
 				pDialog.dismiss();
-			viewResult(merchantsList);
+			viewResult();
 		}
 
 	}

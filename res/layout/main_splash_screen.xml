@@ -2,29 +2,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainSplashScreen"
-    android:background="@color/Khaki">
+    tools:context=".MainSplashScreen">
 
+    
+    
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="82dp"
-        android:scaleType="center"
-        android:src="@drawable/ic_launcher" />
+        android:id="@+id/Splash"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/splash" 
+        android:scaleType="fitXY"
+        android:contentDescription="@string/splash_desc"/>
+        
+        
+        <RelativeLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/welcome_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="123dp"
-        android:text="Welcome Text Here"
-        android:textColor="@color/teal"
-        android:textSize="20sp" 
-        android:textStyle="bold"/>
+		    <TextView
+		        android:id="@+id/app_version"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentBottom="true"
+		        android:layout_alignParentRight="true"
+		        android:textSize="14sp"
+		        android:textColor="@color/darkgray"
+		        android:text="@string/buildNumber"
+		        android:textStyle="italic" />
+    
+		</RelativeLayout>
+        
 
 </RelativeLayout>

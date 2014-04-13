@@ -1,60 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp" >
-    
-    <!-- Label --> 
-    <TextView
-        android:id="@+id/field5"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:paddingTop="6dip"
-        android:textColor="#43bd00"
-        android:textSize="20sp"
-        android:textStyle="bold" />
- 
-    <!-- Label --> 
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    tools:context=".MainActivity" >
+
     <TextView
         android:id="@+id/field1"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:paddingTop="6dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:textColor="#43bd00"
-        android:textSize="16sp"
-        android:textStyle="bold" />
- 
-    <!-- label -->
+        android:text="Merchant Name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <TextView
         android:id="@+id/field2"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:textColor="#acacac" />
- 
-    <!-- label -->
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/field1"
+        android:layout_marginTop="5dp"
+        android:text="ID"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16sp" />
+
     <TextView
         android:id="@+id/field3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:text="Mobile: "
-        android:textColor="#5d5d5d"
-        android:textStyle="bold" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/field2"
+        android:layout_marginTop="5dp"
+        android:text="Address" />
     
-    <!-- label -->
-    <TextView
+	<TextView
         android:id="@+id/field4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:text="Mobile: "
-        android:textColor="#5d5d5d"
-        android:textStyle="bold" />
- 
-</LinearLayout>
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/field3"
+        android:layout_marginTop="5dp"
+        android:text="Phone" />
+        
+  	<TextView
+        android:id="@+id/field5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/field4"
+        android:layout_marginTop="5dp"
+        android:text="Distance" />
+        
+ 	<Button
+        android:id="@+id/button1"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="#FFFFFF"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Info"
+        android:textColor="#0099CC" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="3dp"
+        android:background="#FFFFFF"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Rate"
+        android:textColor="#0099CC" />
+
+</RelativeLayout>

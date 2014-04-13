@@ -25,8 +25,8 @@ public class SingleMerchantActivity  extends Activity {
         Intent in = getIntent();
         
         // Get JSON values from previous intent
-        String id = in.getStringExtra(TAG_ID);
-        String order = in.getStringExtra(TAG_ORDER);
+        String id = in.getStringExtra("id");
+        String phone = in.getStringExtra("phone");
         String street = in.getStringExtra("street");
         String distance = in.getStringExtra("distance");
         String name = in.getStringExtra("name");
@@ -39,8 +39,8 @@ public class SingleMerchantActivity  extends Activity {
         TextView lbl5 = (TextView) findViewById(R.id.e_label);
         
         lbl1.setText("ID: " + id);
-        lbl2.setText("Delivery_processes_card: " + order);
-        lbl3.setText("Street: " + street);
+        lbl2.setText("Street: " + street);
+        lbl3.setText("Phone: " + phone);
         lbl4.setText("Distance: " +distance);
         lbl5.setText(name);
     }

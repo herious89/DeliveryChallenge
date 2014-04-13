@@ -1,17 +1,16 @@
 package com.androidexample.delivery;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import com.androidexample.delivery.FirstScreen.Data;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 /**
@@ -20,12 +19,10 @@ import android.widget.TextView;
  * @author brian & lam
  *
  */
-public class DisplayMerchantsActivity extends ListActivity {
+public class DisplayMerchantsActivity extends BaseActivity {
 	
-	// temp
-	private static final String TAG_ID = "id";
-	private static final String TAG_ORDER = "ordering";
-	private static final String TAG_SUMMARY = "summary";
+	// arraylist of merchants
+	ArrayList<Merchant> merchantArray = new ArrayList<Merchant>();
 
 	/**
 	 * The onCreate method displays the list of available 
@@ -37,24 +34,23 @@ public class DisplayMerchantsActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_merchants);
-	    // Get the message from the intent
-	    Intent intent = getIntent();
-
-	    // pass hashmap to this intent
-		final ArrayList<HashMap<String, String>> merchantsList =
-			    (ArrayList<HashMap<String,String>>)intent.getSerializableExtra("hashmap");
-
-	    
-	    // handle touch events (to-do)
-	    ListView lv = getListView();
-	    
+	    // Get the search result
+		merchantArray = Data.getMerchantList();
+		
+		MerchantCustomAdapter adapter = new MerchantCustomAdapter(this, R.layout.list_item,
+				 merchantArray);
+		ListView mList = (ListView) findViewById(R.id.listView);
+		mList.setItemsCanFocus(false);
+		mList.setAdapter(adapter);	
+		
 		// Listview on item click listener
-		lv.setOnItemClickListener(new OnItemClickListener() {
+		mList.setOnItemClickListener(new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view,
+		public void onItemClick(AdapterView<?> parent, View view, 
 				int position, long id) {
-			// getting values from selected ListItem
+				// Starting single contact activity
+			Intent in = new Intent(getApplicationContext(),	SingleMerchantActivity.class);
 			String field1 = ((TextView) view.findViewById(R.id.field1))
 					.getText().toString();
 			String field2 = ((TextView) view.findViewById(R.id.field2))
@@ -65,29 +61,14 @@ public class DisplayMerchantsActivity extends ListActivity {
 					.getText().toString();
 			String field5 = ((TextView) view.findViewById(R.id.field5))
 					.getText().toString();
-
-			// Starting single contact activity
-			Intent in = new Intent(getApplicationContext(),	SingleMerchantActivity.class);
-			in.putExtra("name", field5);
-			in.putExtra(TAG_ID, field1);
-			in.putExtra(TAG_ORDER, field2);
-			in.putExtra("street", field3);
-			in.putExtra("distance", field4);			
+			in.putExtra("name", field1);
+			in.putExtra("id", field2);
+			in.putExtra("address", field3);
+			in.putExtra("phone", field4);
+			in.putExtra("distance", field5);			
 			startActivity(in);
-
-		}
-	});
-	    
-		// Updating parsed JSON data into ListView
-		ListAdapter adapter = new SimpleAdapter(
-				DisplayMerchantsActivity.this, merchantsList,	
-					R.layout.list_item, new String[] { TAG_ID, TAG_ORDER,
-						"street", "distance" , "name"}, new int[] { R.id.field1,
-					R.id.field2, R.id.field3, R.id.field4, R.id.field5 });
-
-		setListAdapter(adapter);
-
-	}
-	
+			}
+		});
+	}	
 	
 }
