@@ -10,9 +10,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
@@ -24,10 +26,9 @@ import android.content.DialogInterface;
  */
 public class FirstScreen extends BaseActivity {
 	
-	// Hold the user's input 
-	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";	   
+	// Hold the user's input
     final static String SEARCH_ADDRESS = "1330 1st Ave, 10021";
-    
+	private String address = "";
     
 	// Search button
     private Button btnSearch;	
@@ -51,7 +52,22 @@ public class FirstScreen extends BaseActivity {
 			@Override
 			public void onClick(View v) {			    
 				// Calling async task 
-				new GetContacts().execute();
+				EditText text = (EditText)findViewById(R.id.search_box);
+				address = text.getText().toString();
+				Log.i("address = " + address, "**********************************");
+				if (address.equals("")) {
+					AlertDialog.Builder alert = new AlertDialog.Builder(FirstScreen.this);
+					alert.setTitle("Error");
+					alert.setMessage("Please enter an address!");
+					alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+						}      
+					});
+					alert.show();
+				} else {	
+					new GetContacts().execute();
+				}
 			}
 		});
 		
@@ -88,27 +104,32 @@ public class FirstScreen extends BaseActivity {
 	public void viewResult() {
 		JSONObject searchResult = MerchantData.getResult();
 		try {
-			searchResult = searchResult.getJSONObject("merchants");
-			Intent i = new Intent(this, DisplayMerchantsActivity.class); 
-			startActivity(i, true);	
-		} catch (JSONException e) {
-			// Display error message
-			String msg = "Unknown Error";
-			try {
-				msg = searchResult.getJSONArray("message").getJSONObject(0).getString("user_msg");
-			} catch (JSONException a) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (searchResult.getJSONArray("merchants").length() != 0) {
+				Intent i = new Intent(this, DisplayMerchantsActivity.class); 
+				startActivity(i, true);	
 			}
-			AlertDialog.Builder adb = new AlertDialog.Builder(FirstScreen.this);
-			adb.setTitle("Error");
-			adb.setMessage(msg);
-			adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					dialog.cancel();
-				}      
-			});
-			adb.show();
+			else {
+
+				// Display error message
+				String msg = "Unknown Error";
+				try {
+					msg = searchResult.getJSONArray("message").getJSONObject(0).getString("user_msg");
+				} catch (JSONException a) {
+					// TODO Auto-generated catch block
+					a.printStackTrace();
+				}
+				AlertDialog.Builder alert = new AlertDialog.Builder(FirstScreen.this);
+				alert.setTitle("Error");
+				alert.setMessage(msg);
+				alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}      
+				});
+				alert.show();
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 	}
 	
