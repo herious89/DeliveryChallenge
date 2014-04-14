@@ -87,15 +87,16 @@ public class FirstScreen extends BaseActivity {
 	 */
 	public void viewResult() {
 		JSONObject searchResult = MerchantData.getResult();
-		if (searchResult.has("merchants")) {
+		try {
+			searchResult = searchResult.getJSONObject("merchants");
 			Intent i = new Intent(this, DisplayMerchantsActivity.class); 
-			startActivity(i, true);								
-		}
-		else { // Display error message
+			startActivity(i, true);	
+		} catch (JSONException e) {
+			// Display error message
 			String msg = "Unknown Error";
 			try {
-				msg = searchResult.getJSONObject("message").getJSONObject("user_msg").toString();
-			} catch (JSONException e) {
+				msg = searchResult.getJSONArray("message").getJSONObject(0).getString("user_msg");
+			} catch (JSONException a) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
