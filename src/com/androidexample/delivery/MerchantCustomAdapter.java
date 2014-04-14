@@ -74,7 +74,41 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 			@Override
 			public void onClick(View v) {
 				int id = data.get(pos).getID();
-				new GetInfo().execute(id);
+//				new GetInfo().execute(id);
+				Intent in = new Intent(context, SingleMerchantActivity.class);
+				try {
+					JSONArray merchantArray = MerchantData.getResult().getJSONArray("merchants");
+					String merchantInfo = "";
+					boolean found = false;
+					if (!(merchantArray.length() == 0))
+					{
+						for (int i = 0; i < merchantArray.length(); i++)
+			        	{
+							int temp = merchantArray.getJSONObject(i).getInt("id");
+							if (id == temp) {
+								merchantInfo = merchantArray.getJSONObject(i).toString();
+								found = true;
+							}
+			        	}
+						if (found == false) {
+							AlertDialog.Builder alert = new AlertDialog.Builder(context);
+							alert.setTitle("Error");
+							alert.setMessage("Could not find more information about that merchat!");
+							alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int id) {
+									dialog.cancel();
+								}      
+							});
+							alert.show();
+						}
+						else {
+							in.putExtra("merchantInfo", merchantInfo);
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				context.startActivity(in);	
 			}
 		});
 

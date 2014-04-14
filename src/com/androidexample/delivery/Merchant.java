@@ -1,5 +1,7 @@
 package com.androidexample.delivery;
 
+import java.text.DecimalFormat;
+
 public class Merchant {
 
 	String name;
@@ -22,7 +24,10 @@ public class Merchant {
 	public String getCuisine() {return cuisine;}
 
 	public void setDistance(double d) {distance = d;}
-	public String getDistance() {return distance + " miles";}
+	public String getDistance() {
+		DecimalFormat df1 = new DecimalFormat("#.#");
+		return Double.valueOf(df1.format(distance)) + "mi away";
+		}
 	
 	public Merchant(String n, int i, String a, String c, double d) {
 		name = n;

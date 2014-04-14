@@ -53,25 +53,6 @@ public class DisplayMerchantsActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				
-				// Starting single contact activity
-//				Intent in = new Intent(getApplicationContext(),	SingleMerchantActivity.class);
-//		String field1 = ((TextView) view.findViewById(R.id.field1))
-//				.getText().toString();
-//		String field2 = ((TextView) view.findViewById(R.id.field2))
-//				.getText().toString();
-//		String field3 = ((TextView) view.findViewById(R.id.field3))
-//				.getText().toString();
-//		String field4 = ((TextView) view.findViewById(R.id.field4))
-//				.getText().toString();
-//		String field5 = ((TextView) view.findViewById(R.id.field5))
-//				.getText().toString();
-//				in.putExtra("name", field1);
-//				in.putExtra("id", field2);
-//				in.putExtra("address", field3);
-//				in.putExtra("phone", field4);
-//				in.putExtra("distance", field5);			
-//				startActivity(in);
 				merchantID = merchantArray.get(position).getID() + "";
 				new GetMenu().execute();
 			}
