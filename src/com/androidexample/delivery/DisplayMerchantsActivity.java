@@ -2,6 +2,7 @@ package com.androidexample.delivery;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -68,15 +69,48 @@ public class DisplayMerchantsActivity extends BaseActivity {
 		ListView mList = (ListView) findViewById(R.id.listView);
 		mList.setItemsCanFocus(false);
 		mList.setAdapter(adapter);	
-	    
+
 		// Listview on item click listener
 		mList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				merchantID = merchantArray.get(position).getID() + "";
-				new GetMenu().execute();
+				int merchantID = merchantArray.get(position).getID();
+				Intent in = new Intent(getApplicationContext(), SingleMerchantActivity.class);
+				try {
+					JSONArray merchantArray = MerchantData.getResult().getJSONArray("merchants");
+					String merchantInfo = "";
+					boolean found = false;
+					if (!(merchantArray.length() == 0))
+					{
+						for (int i = 0; i < merchantArray.length(); i++)
+				        {
+							int temp = merchantArray.getJSONObject(i).getInt("id");
+							if (merchantID == temp) {
+								merchantInfo = merchantArray.getJSONObject(i).toString();
+								found = true;
+							}
+				        }
+						if (found == false) {
+							AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
+							alert.setTitle("Error");
+							alert.setMessage("Could not find more information about that merchat!");
+							alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+									dialog.cancel();
+								}      
+							});
+							alert.show();
+						}
+						else {
+							in.putExtra("merchantInfo", merchantInfo);
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				startActivity(in);
 			}
 		});
 	}	

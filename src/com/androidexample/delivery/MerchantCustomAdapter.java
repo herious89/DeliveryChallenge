@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.androidexample.delivery.DeliveryMainActivity.MerchantData;
+import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -58,7 +60,7 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 			holder.textStreet = (TextView) row.findViewById(R.id.field3);
 			holder.textDistance = (TextView) row.findViewById(R.id.field4);
 			
-			holder.btnInfo = (Button) row.findViewById(R.id.button1);
+			holder.btnMenu = (Button) row.findViewById(R.id.button1);
 			holder.btnRate = (Button) row.findViewById(R.id.button2);
 			row.setTag(holder);
 		} else {
@@ -70,45 +72,10 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 		holder.textStreet.setText(m.getStreet());
 		holder.textDistance.setText(m.getDistance());
 		
-		holder.btnInfo.setOnClickListener(new OnClickListener() {
+		holder.btnMenu.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				int id = data.get(pos).getID();
-//				new GetInfo().execute(id);
-				Intent in = new Intent(context, SingleMerchantActivity.class);
-				try {
-					JSONArray merchantArray = MerchantData.getResult().getJSONArray("merchants");
-					String merchantInfo = "";
-					boolean found = false;
-					if (!(merchantArray.length() == 0))
-					{
-						for (int i = 0; i < merchantArray.length(); i++)
-			        	{
-							int temp = merchantArray.getJSONObject(i).getInt("id");
-							if (id == temp) {
-								merchantInfo = merchantArray.getJSONObject(i).toString();
-								found = true;
-							}
-			        	}
-						if (found == false) {
-							AlertDialog.Builder alert = new AlertDialog.Builder(context);
-							alert.setTitle("Error");
-							alert.setMessage("Could not find more information about that merchat!");
-							alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int id) {
-									dialog.cancel();
-								}      
-							});
-							alert.show();
-						}
-						else {
-							in.putExtra("merchantInfo", merchantInfo);
-						}
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				context.startActivity(in);	
+				new GetMenu().execute(pos);
 			}
 		});
 
@@ -129,17 +96,14 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 		TextView textCuisine;
 		TextView textStreet;
 		TextView textDistance;
-		Button btnInfo;
+		Button btnMenu;
 		Button btnRate;
 	}
 	
-	private class GetInfo extends AsyncTask<Integer, Void, Void> {
-		
-	    // Load dialog
-		
+	
+	
+	private class GetMenu extends AsyncTask<Integer, Void, Void> {
 	    private ProgressDialog pDialog;
-		Intent in = new Intent(context, SingleMerchantActivity.class);
-		
 		/**
 		 * The onPreExecute method display the waiting message
 		 * while the program is executing the search function
@@ -152,7 +116,6 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 			pDialog.setMessage("Please wait...");
 			pDialog.setCancelable(false);
 			pDialog.show();
-
 		}
 
 		/**
@@ -160,41 +123,11 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 		 * object and gets the list of available merchants 
 		 */
 		@Override
-		protected Void doInBackground(Integer... arg) {		
-			// search merchant information
-			
-			try {
-				JSONArray merchantArray = MerchantData.getResult().getJSONArray("merchants");
-				String merchantInfo = "";
-				boolean found = false;
-				if (!(merchantArray.length() == 0))
-				{
-					for (int i = 0; i < merchantArray.length(); i++)
-		        	{
-						int id = merchantArray.getJSONObject(i).getInt("id");
-						if (id == arg[0]) {
-							merchantInfo = merchantArray.getJSONObject(i).toString();
-							found = true;
-						}
-		        	}
-					if (found == false) {
-						AlertDialog.Builder alert = new AlertDialog.Builder(context);
-						alert.setTitle("Error");
-						alert.setMessage("Could not find more information about that merchat!");
-						alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}      
-						});
-						alert.show();
-					}
-					else {
-						in.putExtra("merchantInfo", merchantInfo);
-					}
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		protected Void doInBackground(Integer... arg) {
+			String merchantID = data.get(arg[0]).getID() + "";
+			// SearchMerchants search = new SearchMerchants("input here");
+			MenuData.setResult(SearchMerchants.search(merchantID, 1));
+			// MenuData.setMenuList(SearchMerchants.createMenuList(MerchantData.getResult()));
 			return null;
 		}
 
@@ -208,9 +141,34 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 			// Dismiss the progress dialog
 			if (pDialog.isShowing())
 				pDialog.dismiss();
-			context.startActivity(in);			
+			viewResult();
 		}
-
+	}
+	
+	public void viewResult() {
+		JSONObject searchResult;
+		try {
+			searchResult = MenuData.getResult();
+			if (searchResult.has("menu")) {
+				Intent i = new Intent(context, DisplayMenuActivity.class); 
+				context.startActivity(i);								
+			}
+			else { // Display error message
+				String msg = searchResult.getJSONObject("message").getJSONObject("user_msg").toString();
+				AlertDialog.Builder adb = new AlertDialog.Builder(context);
+				adb.setTitle("Error");
+				adb.setMessage(msg);
+				adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}      
+				});
+				adb.show();
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
