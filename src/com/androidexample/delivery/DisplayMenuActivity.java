@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.widget.TextView;
 
-import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
+import com.androidexample.delivery.MerchantCustomAdapter.MenuData;;
 
 public class DisplayMenuActivity extends BaseActivity {
 

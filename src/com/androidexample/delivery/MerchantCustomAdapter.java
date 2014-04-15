@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.androidexample.delivery.DeliveryMainActivity.MerchantData;
-import com.androidexample.delivery.DisplayMerchantsActivity.MenuData;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -170,5 +169,21 @@ public class MerchantCustomAdapter extends ArrayAdapter<Merchant> {
 			e.printStackTrace();
 		}
 	}
+	
+	public static class MenuData {
+		private static JSONObject result;
+		private static ArrayList<Menu> menu;
+		
+		public static void setResult(String s) {
+			try {
+				result = new JSONObject(s);
+			} catch (JSONException e) {e.printStackTrace();}
+		}
+		public static JSONObject getResult() {return result;}
+
+		public static void setMenuList(ArrayList<Menu> m) {menu = m;}
+		public static ArrayList<Menu> getMenuList() {return menu;}
+	}
+
 	
 }
