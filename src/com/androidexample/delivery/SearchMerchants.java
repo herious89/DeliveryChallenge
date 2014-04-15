@@ -110,24 +110,26 @@ public class SearchMerchants {
 			// create array of merchants
 			for (int i = 0; i < mArray.length(); i++)
 			{
-				cuisine = "";
-				name = mArray.getJSONObject(i).getJSONObject("summary").getString("name");
-				id = mArray.getJSONObject(i).getInt("id");
-				address = mArray.getJSONObject(i).getJSONObject("location").getString("street");
-				try {
-					JSONArray cui = mArray.getJSONObject(i).getJSONObject("summary")
-							.getJSONArray("cuisines");
-					int size = cui.length();
-					for (int j = 0; j < size; j++)
-						if (j < size - 1)
-							cuisine = cuisine + cui.getString(j) + ", ";
-						else
-							cuisine = cuisine + cui.getString(j);
-				} catch (JSONException e) {
-					cuisine = "No tags";
+				if (mArray.getJSONObject(i).getJSONObject("summary").get("type").equals("R")) {
+					cuisine = "";
+					name = mArray.getJSONObject(i).getJSONObject("summary").getString("name");
+					id = mArray.getJSONObject(i).getInt("id");
+					address = mArray.getJSONObject(i).getJSONObject("location").getString("street");
+					try {
+						JSONArray cui = mArray.getJSONObject(i).getJSONObject("summary")
+								.getJSONArray("cuisines");
+						int size = cui.length();
+						for (int j = 0; j < size; j++)
+							if (j < size - 1)
+								cuisine = cuisine + cui.getString(j) + ", ";
+							else
+								cuisine = cuisine + cui.getString(j);
+					} catch (JSONException e) {
+						cuisine = "No tags";
+					}
+					distance = mArray.getJSONObject(i).getJSONObject("location").getDouble("distance");
+					m.add(new Merchant(name, id, address, cuisine, distance));		
 				}
-				distance = mArray.getJSONObject(i).getJSONObject("location").getDouble("distance");
-				m.add(new Merchant(name, id, address, cuisine, distance));		
 			}	
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
